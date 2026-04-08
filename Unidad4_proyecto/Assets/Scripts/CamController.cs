@@ -15,7 +15,7 @@ public class CamController : MonoBehaviour
     {
         Vector3 actualPos = transform.position;
         actualPos.y = ball.transform.position.y + offset;
-
         transform.position = actualPos;
+        
     }
 }
