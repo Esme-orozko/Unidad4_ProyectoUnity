@@ -24,12 +24,17 @@ public class GameManager : MonoBehaviour
     public void NextLevel()
     {
         Debug.Log("Pasamos de nivel");
+
+        currentLevel++;
+        FindObjectsByType<BallController>()[0].ResetBall();
+        FindObjectsByType<HelixController>()[0].loadStage(currentLevel);
     }
 
     public void RestartLevel()
     {
         singleton.currentScore = 0;
         FindObjectsByType<BallController>()[0].ResetBall();
+        FindObjectsByType<HelixController>()[0].loadStage(currentLevel);
         Debug.Log("restart");
     }
 

@@ -37,6 +37,6 @@ MonoBehaviour:
   - partCount: 9
     deathPartCount: 4
   - partCount: 8
-    deathPartCount: 6
+    deathPartCount: 3
   - partCount: 8
     deathPartCount: 2
