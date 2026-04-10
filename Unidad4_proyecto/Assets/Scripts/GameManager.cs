@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -6,7 +7,6 @@ public class GameManager : MonoBehaviour
     public int currentScore;
     public int currentLevel = 0;
     public static GameManager singleton;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
         if ( singleton == null)
@@ -21,21 +21,27 @@ public class GameManager : MonoBehaviour
         bestScore = PlayerPrefs.GetInt("HighScore");
     }
 
-    public void NextLevel()
-    {
-        Debug.Log("Pasamos de nivel");
+public void NextLevel()
+{
+    currentLevel++;
+    HelixController helix = FindObjectsByType<HelixController>()[0];
 
-        currentLevel++;
-        FindObjectsByType<BallController>()[0].ResetBall();
-        FindObjectsByType<HelixController>()[0].loadStage(currentLevel);
+    // Verificar si ya no hay más niveles
+    if (currentLevel >= helix.allStages.Count)
+    {
+        SceneManager.LoadScene("MainMenu"); 
+        return;
     }
 
+    // Continuar con el siguiente nivel
+    FindObjectsByType<BallController>()[0].ResetBall();
+    FindObjectsByType<HelixController>()[0].loadStage(currentLevel);
+}
     public void RestartLevel()
     {
         singleton.currentScore = 0;
         FindObjectsByType<BallController>()[0].ResetBall();
         FindObjectsByType<HelixController>()[0].loadStage(currentLevel);
-        Debug.Log("restart");
     }
 
     public void AddScore(int scoreToAdd)
