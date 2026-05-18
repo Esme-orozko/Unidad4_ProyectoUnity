@@ -21,28 +21,40 @@ public class HelixController : MonoBehaviour
         loadStage(0);
     }
 
-    void Update()
+private bool wasPressing = false;
+
+void Update()
+{
+    Vector2 currentPosition = Vector2.zero;
+    bool isPressing = false;
+
+    if (Touchscreen.current != null &&
+        Touchscreen.current.primaryTouch.press.isPressed)
     {
-        if (Mouse.current.leftButton.isPressed)
-        {
-            Vector2 currentTapPosition = Mouse.current.position.ReadValue();
-
-            if (lastTapPosition == Vector2.zero)
-            {
-                lastTapPosition = currentTapPosition;
-            }
-
-            float distance = lastTapPosition.x - currentTapPosition.x;
-            lastTapPosition = currentTapPosition;
-
-            transform.Rotate(Vector3.up * distance);
-        }
-
-        if (Mouse.current.leftButton.wasReleasedThisFrame)
-        {
-            lastTapPosition = Vector2.zero;
-        }
+        currentPosition = Touchscreen.current.primaryTouch.position.ReadValue();
+        isPressing = true;
     }
+    else if (Mouse.current != null &&
+             Mouse.current.leftButton.isPressed)
+    {
+        currentPosition = Mouse.current.position.ReadValue();
+        isPressing = true;
+    }
+
+
+    if (isPressing && !wasPressing)
+    {
+        lastTapPosition = currentPosition;
+    }
+
+    if (isPressing)
+    {
+        float distance = lastTapPosition.x - currentPosition.x;
+        transform.Rotate(Vector3.up * distance * 0.1f);
+        lastTapPosition = currentPosition;
+    }
+    wasPressing = isPressing;
+}
 
     public void loadStage (int stageNumber)
     {

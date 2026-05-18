@@ -1,8 +1,10 @@
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class BallController : MonoBehaviour
 {
+
     public Rigidbody rb;
     public float impulseForce = 3f;
     private bool ignoreNextCollision;
@@ -11,6 +13,7 @@ public class BallController : MonoBehaviour
     public float superSpeed = 10;
     private bool isSuperSpeedActive;
     private int perfectPassCount = 3;
+    public AudioSource collisionAudio;
 
     private void Start()
     {
@@ -18,7 +21,7 @@ public class BallController : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-
+        collisionAudio.Play();
         if (ignoreNextCollision)
         {
             return;

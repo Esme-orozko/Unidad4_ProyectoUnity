@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class GameManager : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class GameManager : MonoBehaviour
     public int currentScore;
     public int currentLevel = 0;
     public static GameManager singleton;
+    public AudioSource winAudio;
     void Awake()
     {
         if ( singleton == null)
@@ -23,6 +25,7 @@ public class GameManager : MonoBehaviour
 
 public void NextLevel()
 {
+    winAudio.Play();
     currentLevel++;
     HelixController helix = FindObjectsByType<HelixController>()[0];
 
